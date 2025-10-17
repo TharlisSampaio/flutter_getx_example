@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_login/src/controller/login_controller.dart';
 
-class LoginScreen extends StatelessWidget {
+// ********** MODIFICAÇÃO CHAVE AQUI **********
+// 1. Trocamos 'StatelessWidget' por 'GetView<LoginController>'
+class LoginScreen extends GetView<LoginController> {
   LoginScreen({super.key});
-  // ********** MODIFICAÇÃO CHAVE **********
-  // Troca o Get.put() pelo Get.find()
-  // O Get.find() pressupõe que o Controller já foi injetado (pelo Binding).
-  // final LoginController controller = Get.put(LoginController());
-  final LoginController controller = Get.find<LoginController>();
+  // Isso não é mais necessário!
+  // REMOVIDO: final LoginController controller = Get.find<LoginController>();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -31,7 +30,8 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.deepPurple, // Usando a cor primária do tema
                 ),
                 textAlign: TextAlign.center,
-              ),
+                ),
+                const SizedBox(height: 35),
                 TextField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -40,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 22),
                 TextField(
                   controller: passwordController,
                   decoration: const InputDecoration(
@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   obscureText: true,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 22),
                 Obx(
                   () => ElevatedButton(
                     onPressed: controller.isLoadind.value

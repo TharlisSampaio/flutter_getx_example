@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:get/get.dart';
 import 'package:getx_login/src/bindings/login_binding.dart';
+import 'package:getx_login/src/controller/user_controller.dart';
 import 'package:getx_login/src/pages/home_screen.dart';
 import 'package:getx_login/src/pages/login_screen.dart';
 
 void main() {
+  // ********** REGISTRO GLOBAL **********
+  // Cria a instância do UserController e a mantém na memória
+  // por toda a vida útil do app.
+  Get.put(UserController()); 
+  // *************************************
   runApp(const MyApp());
 }
 
