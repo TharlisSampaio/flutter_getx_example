@@ -4,11 +4,14 @@ import 'package:getx_login/src/bindings/login_binding.dart';
 import 'package:getx_login/src/controller/user_controller.dart';
 import 'package:getx_login/src/pages/home_screen.dart';
 import 'package:getx_login/src/pages/login_screen.dart';
+import 'package:getx_login/src/route_guard/route_quard.dart';
+import 'package:getx_login/src/services/auth_service.dart';
 
 void main() {
   // ********** REGISTRO GLOBAL **********
   // Cria a instância do UserController e a mantém na memória
   // por toda a vida útil do app.
+  Get.put(AuthService()); // Você também pode usar Get.put(AuthService()); se não for assíncrono.
   Get.put(UserController()); 
   // *************************************
   runApp(const MyApp());
@@ -60,6 +63,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/home',
           page: () => const HomeScreen(),
+          middlewares: [RouteQuard()]
         ),
       ],
     );
