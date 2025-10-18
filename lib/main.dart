@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:getx_login/src/bindings/login_binding.dart';
 import 'package:getx_login/src/controller/user_controller.dart';
@@ -7,18 +8,27 @@ import 'package:getx_login/src/pages/login_screen.dart';
 import 'package:getx_login/src/route_guard/route_quard.dart';
 import 'package:getx_login/src/services/auth_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   // ********** REGISTRO GLOBAL **********
   // Cria a instância do UserController e a mantém na memória
   // por toda a vida útil do app.
-  Get.put(AuthService()); // Você também pode usar Get.put(AuthService()); se não for assíncrono.
+  // Get.put(AuthService()); // Você também pode usar Get.put(AuthService()); se não for assíncrono.
+  await Get.putAsync(() => AuthService().init());
+  
   Get.put(UserController()); 
-  // *************************************
-  runApp(const MyApp());
+
+  final AuthService authService = Get.find<AuthService>();
+  final initialRoute = authService.isAuthenticated.value ? '/home' : '/login';
+
+  runApp(MyApp(initialRoute: initialRoute,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +63,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      initialRoute: '/login',
+      initialRoute: initialRoute,
       getPages: [
         GetPage(
           name: '/login',
