@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_login/src/controller/user_controller.dart';
+import 'package:getx_login/src/services/auth_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,6 +12,7 @@ class HomeScreen extends StatelessWidget {
     // Use Get.find() para obter a instância que foi registrada no main.dart
     // final UserController userController = Get.find<UserController>();
     final UserController userController = UserController();
+    final AuthService authService = Get.find<AuthService>();
 
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +38,7 @@ class HomeScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Ao deslogar, limpamos o usuário e voltamos para o login
-                userController.logout(); // Chama a função para limpar os dados
+                authService.logout(); // Chama a função para limpar os dados
                 Get.offAllNamed('/login');
               },
               child: const Text('Sair (Logout)'),
